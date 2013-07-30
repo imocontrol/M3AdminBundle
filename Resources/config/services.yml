@@ -1,0 +1,7 @@
+parameters:
+#    imocontrol_m3_admin.example.class: IMOControl\M3\AdminBundle\Example
+
+services:
+#    imocontrol_m3_admin.example:
+#        class: %imocontrol_m3_admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
