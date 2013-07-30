@@ -28,7 +28,7 @@
     "autoload": {
         "psr-0": { "IMOControl\\M3\\AdminBundle\\": "" }
     },
-    "target-dir": "M3/AdminBundle",
+    "target-dir": "IMOControl/M3/AdminBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
