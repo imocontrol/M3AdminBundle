@@ -1,5 +1,13 @@
 <?php
-
+/*
+ * This file is part of the iMOControl package.
+ *
+ * (c) Michael Ofner <michael@imocontrol.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
 namespace IMOControl\M3\AdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
@@ -12,7 +20,7 @@ abstract class Admin extends SonataAdmin
 	 * 
 	 * @var string
 	 */
-    protected $translationDomain = 'application';
+    protected $translationDomain = 'default';
 	
     /**
      * The number of result to display in the list
@@ -42,6 +50,11 @@ abstract class Admin extends SonataAdmin
 	 */
     protected $securityContext;
     
+    public function __construct($code, $class, $baseControllerName)
+    {
+       parent::__construct($code, $class, $baseControllerName);
+    }
+    
     /**
 	 * Set current security context
 	 * 
@@ -49,6 +62,11 @@ abstract class Admin extends SonataAdmin
 	 */
 	public function setSecurityContext(SecurityContextInterface $context) {
 		$this->securityContext = $context;
+	}
+	
+	public function setTranslationDomain($value)
+	{
+		$this->translationDomain = $value;
 	}
 	
 	/**

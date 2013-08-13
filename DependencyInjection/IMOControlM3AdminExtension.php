@@ -1,5 +1,13 @@
 <?php
-
+/*
+ * This file is part of the iMOControl package.
+ *
+ * (c) Michael Ofner <michael@imocontrol.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
 namespace IMOControl\M3\AdminBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,6 +29,10 @@ class IMOControlM3AdminExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
+		// retrieve the notification backend
+		
+
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
