@@ -1,7 +1,9 @@
 parameters:
-#    imocontrol_m3_admin.example.class: IMOControl\M3\AdminBundle\Example
+    imocontrol_m3_admin.listener.request.class: IMOControl\M3\AdminBundle\Listener\RequestListener
 
 services:
-#    imocontrol_m3_admin.example:
-#        class: %imocontrol_m3_admin.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    imocontrol.admin.listener.request:
+        class: %imocontrol_m3_admin.listener.request.class%
+        arguments: [ @service_container ]
+        tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
