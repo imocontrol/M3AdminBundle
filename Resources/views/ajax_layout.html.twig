@@ -1,0 +1,16 @@
+{% block content %}
+    {% block preview %}{% endblock %}
+    {% block form %}{% endblock %}
+    {% block list %}{% endblock %}
+    {% block show %}{% endblock %}
+
+    <div class="row-fluid">
+        <div class="sonata-ba-list span10">
+            {% block list_table %}{% endblock %}
+        </div>
+
+        <div class="sonata-ba-filter span2">
+            {% block list_filters %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+
+.m3-fixed-actions {
+	position:fixed; bottom: 0px; width: 100%;
+}
+
+
+.sonata-ba-side-menu .sonata-bc .nav > li > a:hover {
+    background-color: #EEEEEE;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.ui-widget-overlay {
+    background: none;
+    background-color:  #000;
+    opacity: 0.7;
+}
+
+.ui-accordion .ui-accordion-content {
+    padding: 1em 1.2em;
+}
+
+.ui-accordion .ui-accordion-header .ui-icon {
+    left: 0;
+}
+.ui-accordion .ui-accordion-content { margin-left: 0; }
+
+.m3sidenav {
+}

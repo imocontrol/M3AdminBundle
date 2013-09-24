@@ -12,6 +12,8 @@ namespace IMOControl\M3\AdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Form\FormBuilder;
+use Sonata\AdminBundle\Form\FormMapper;
 
 abstract class Admin extends SonataAdmin
 {
@@ -43,37 +45,57 @@ abstract class Admin extends SonataAdmin
      */
     protected $perPageOptions = array(50, 100, 200, 300, 500, 1000, 5000);
 	
-	/**
-	 * Security Context
-	 * 
-	 * @var SecurityContextInterface
-	 */
-    protected $securityContext;
-    
     public function __construct($code, $class, $baseControllerName)
     {
        parent::__construct($code, $class, $baseControllerName);
     }
     
-    /**
-	 * Set current security context
-	 * 
-	 * @param SecurityContextInterface $context 
-	 */
-	public function setSecurityContext(SecurityContextInterface $context) {
-		$this->securityContext = $context;
-	}
-	
-	public function setTranslationDomain($value)
-	{
-		$this->translationDomain = $value;
-	}
-	
+	/**
+     * Set the current injected translation domain value.
+     *
+     * @param string $value
+     */
+    public function setTranslationDomain($value)
+    {
+        $this->translationDomain = $value;
+    }
+    
 	/**
 	 * @return M3UserBundle Current user if logged in
 	 */
-	public function getCurrentUser() {
-		return $this->securityContext->getToken()->getUser();
+	public function getCurrentUser()
+	{
+		return $this->getContainer()->get('security.context')->getToken()->getUser();
 	}
 	
+	/**
+	 * Check if the current request is in edit or creation modus
+	 * 
+     * @return boolean true: Editmodus false: Creationmodus
+	 */
+	public function isEditModus()
+	{
+		return ($this->getSubject()->getId() > 0);
+	}
+	 
+	/**
+	 * Checks if the current request is a history request.
+	 *
+	 * @return boolean true|false
+	 */
+	public function isHistoryModus()
+	{
+		return (strpos($this->getRequest()->get('_route'), 'history') === false) ? false : true; 
+	}	
+	
+	public function getContainer() 
+	{
+		return $this->getConfigurationPool()->getContainer();
+	}
+    
+    public function getSecurityContext()
+    {
+        return $this->getContainer()->get('security.context');
+    }
+    
 }

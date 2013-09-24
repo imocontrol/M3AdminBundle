@@ -1,6 +1,8 @@
 <?php
 namespace IMOControl\M3\AdminBundle\Services;
 
+use IMOControl\M3\AdminBundle\Admin\Admin;
+
 abstract class Manager
 {
 	/**
@@ -40,6 +42,8 @@ abstract class Manager
 	}
 	
 	abstract public function init();
+	abstract public function create($object);
+	abstract public function update($object);
 	
 	public function getEntityClass()
 	{
@@ -48,6 +52,9 @@ abstract class Manager
 	
 	public function setAdminObject($object) 
 	{
+		if (!$object instanceof Admin) {
+			throw new \InvalidArgumentException(sprintf("No valid Admin Object. Given: %s Expect instance of %s.", class_name($object), 'IMOControl\M3\AdminBundle\Admin\Admin'));
+		}
 		$this->admin = $object;
 	}
 	
@@ -104,7 +111,7 @@ abstract class Manager
 	 * @param 	boolean $recursive
 	 *
 	 * @return  boolean	False if folder exists.
-	 * @throw	\RuntimeException	If mkdir function fails.
+	 * @throws	\RuntimeException	If mkdir function fails.
 	 */
 	public function uniqueFolder($path_to_check, $create=false, $modus=0755, $recursive=true)
 	{
@@ -113,8 +120,12 @@ abstract class Manager
 		}
 		
 		if ($create) {
+		    /*if (!is_writable($path_to_check)) {
+		        throw new \RuntimeException(sprintf("Can't create path '%s'! No write permissions.", $path_to_check));
+		    }*/
+            
 			if(!mkdir($path_to_check, $modus, $recursive)) {
-				throw new \RuntimeException(sprintf("The path '%s' is not writeable."));
+				throw new \RuntimeException(sprintf("Creating path '%s' failed!", $path_to_check));
 			}
 		}
 		return true;

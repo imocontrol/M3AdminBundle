@@ -1,9 +1,14 @@
 parameters:
     imocontrol_m3_admin.listener.request.class: IMOControl\M3\AdminBundle\Listener\RequestListener
-
+    imocontrol_m3_admin.listbuilder.class: IMOControl\M3\AdminBundle\Builder\OrmListBuilder
+    
 services:
     imocontrol.admin.listener.request:
         class: %imocontrol_m3_admin.listener.request.class%
         arguments: [ @service_container ]
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+          
+    sonata.admin.builder.orm_list:
+        class: %imocontrol_m3_admin.listbuilder.class%
+        arguments: [ @sonata.admin.guesser.orm_list_chain]
