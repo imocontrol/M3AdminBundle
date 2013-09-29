@@ -10,7 +10,7 @@ abstract class Manager
      *
      * @var string $entity_class Name of the application entity class.
      */
-    protected $entity_class;
+    protected $entityClass;
 
     /**
      * Current admin object. Get's injected by setAdminObject at rundime when the
@@ -21,7 +21,7 @@ abstract class Manager
     protected $admin;
 
     /**
-     * Holds an stack of options values in an array.
+     * Holds an stack of option values in an array.
      *
      * @var array $options
      */
@@ -29,30 +29,30 @@ abstract class Manager
 
     /**
      *
-     * @param	string	$entity_class			Name of the model class to init if needed.
-     * @param 	string	$customer_root_path		Customer folder absolute Rootpath.
+     * @param   string  $entity_class           Name of the model class to init if needed.
+     * @param   string  $customer_root_path     Customer folder absolute Rootpath.
      */
-    public function __construct($entity_class)
+    public function __construct($entityClass)
     {
-        if (!class_exists($entity_class)) {
-            throw new \InvalidArgumentException(sprintf("The class %s doesn't exists or is not autoloaded.", $entity_class));
+        if (!class_exists($entityClass)) {
+            throw new \InvalidArgumentException(sprintf("The class %s doesn't exists or is not autoloaded.", $entityClass));
         }
-        $this->entity_class = $entity_class;
-        $this->init();
+        $this->$entityClass = $entityClass;
     }
 
     abstract public function create($object);
     abstract public function update($object);
+    abstract public function remove($object);
 
     public function getEntityClass()
     {
-        return $this->entity_class;
+        return $this->$entityClass;
     }
 
     public function setAdminObject($object)
     {
         if (!$object instanceof Admin) {
-            throw new \InvalidArgumentException(sprintf("No valid Admin Object. Given: %s Expect instance of %s.", class_name($object), 'IMOControl\M3\AdminBundle\Admin\Admin'));
+            throw new \InvalidArgumentException(sprintf("No valid Admin Object. Given: %s Expect instance of %s.", get_class($object), 'IMOControl\M3\AdminBundle\Admin\Admin'));
         }
         $this->admin = $object;
     }
