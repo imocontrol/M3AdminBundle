@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace IMOControl\M3\AdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
@@ -18,12 +18,12 @@ use Sonata\AdminBundle\Form\FormMapper;
 abstract class Admin extends SonataAdmin
 {
     /**
-	 * Name of the used translation file. (Resources/translations/<name>.de.yml)
-	 * 
-	 * @var string
-	 */
+     * Name of the used translation file. (Resources/translations/<name>.de.yml)
+     *
+     * @var string
+     */
     protected $translationDomain = 'default';
-	
+
     /**
      * The number of result to display in the list
      *
@@ -37,20 +37,20 @@ abstract class Admin extends SonataAdmin
      * @var integer
      */
     protected $maxPageLinks = 50;
-    
-	/**
+
+    /**
      * Predefined per page options
      *
      * @var array
      */
     protected $perPageOptions = array(50, 100, 200, 300, 500, 1000, 5000);
-	
+
     public function __construct($code, $class, $baseControllerName)
     {
-       parent::__construct($code, $class, $baseControllerName);
+        parent::__construct($code, $class, $baseControllerName);
     }
-    
-	/**
+
+    /**
      * Set the current injected translation domain value.
      *
      * @param string $value
@@ -59,43 +59,43 @@ abstract class Admin extends SonataAdmin
     {
         $this->translationDomain = $value;
     }
-    
-	/**
-	 * @return M3UserBundle Current user if logged in
-	 */
-	public function getCurrentUser()
-	{
-		return $this->getContainer()->get('security.context')->getToken()->getUser();
-	}
-	
-	/**
-	 * Check if the current request is in edit or creation modus
-	 * 
+
+    /**
+     * @return M3UserBundle Current user if logged in
+     */
+    public function getCurrentUser()
+    {
+        return $this->getContainer()->get('security.context')->getToken()->getUser();
+    }
+
+    /**
+     * Check if the current request is in edit or creation modus
+     *
      * @return boolean true: Editmodus false: Creationmodus
-	 */
-	public function isEditModus()
-	{
-		return ($this->getSubject()->getId() > 0);
-	}
-	 
-	/**
-	 * Checks if the current request is a history request.
-	 *
-	 * @return boolean true|false
-	 */
-	public function isHistoryModus()
-	{
-		return (strpos($this->getRequest()->get('_route'), 'history') === false) ? false : true; 
-	}	
-	
-	public function getContainer() 
-	{
-		return $this->getConfigurationPool()->getContainer();
-	}
-    
+     */
+    public function isEditModus()
+    {
+        return ($this->getSubject()->getId() > 0);
+    }
+
+    /**
+     * Checks if the current request is a history request.
+     *
+     * @return boolean true|false
+     */
+    public function isHistoryModus()
+    {
+        return (false === strpos($this->getRequest()->get('_route'), 'history')) ? false : true;
+    }
+
+    public function getContainer()
+    {
+        return $this->getConfigurationPool()->getContainer();
+    }
+
     public function getSecurityContext()
     {
         return $this->getContainer()->get('security.context');
     }
-    
+
 }

@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RequestListener
 {
     protected $container;
-    
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -21,20 +21,20 @@ class RequestListener
         $userlocale = null;
         $request = $event->getRequest();
         $token = $this->container->get('security.context')->getToken();
-		
-		if (!is_object($token)) {
-			return;
-		}
-		$user = $token->getUser();
-		
-		if (!is_object($user)) {
-			return;
-		}
-		
-		$userlocale = $user->getLocale();
-		if($userlocale !== NULL AND $userlocale !== '')
-        {
+
+        if (!is_object($token)) {
+            return;
+        }
+        $user = $token->getUser();
+
+        if (!is_object($user)) {
+            return;
+        }
+
+        $userlocale = $user->getLocale();
+        if ($userlocale !== NULL AND $userlocale !== '') {
             $request->setLocale($userlocale);
         }
     }
+
 }

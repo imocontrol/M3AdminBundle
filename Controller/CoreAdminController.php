@@ -14,5 +14,4 @@ use Sonata\AdminBundle\Controller\CRUDController as SonataCRUDController;
 
 class CoreAdminController extends SonataCRUDController
 {
-    
 }

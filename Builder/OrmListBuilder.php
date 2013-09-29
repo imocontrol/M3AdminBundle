@@ -9,7 +9,6 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
 use Sonata\DoctrineORMAdminBundle\Builder\ListBuilder as SonataListBuilder;
 
-
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 class OrmListBuilder extends SonataListBuilder
@@ -35,7 +34,8 @@ class OrmListBuilder extends SonataListBuilder
 
             $fieldDescription->setOption('actions', $actions);
         }
-        
+
         return parent::buildActionFieldDescription($fieldDescription);
     }
+
 }
