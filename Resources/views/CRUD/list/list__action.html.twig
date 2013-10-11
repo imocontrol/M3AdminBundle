@@ -12,7 +12,9 @@ file that was distributed with this source code.
 {% extends admin.getTemplate('base_list_field') %}
 
 {% block field %}
+    <div class="btn-group btn-group-xs">
     {% for actions in field_description.options.actions %}
         {% include actions.template %}
     {% endfor %}
+    </div>
 {% endblock %}

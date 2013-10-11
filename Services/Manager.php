@@ -35,18 +35,18 @@ abstract class Manager
     public function __construct($entityClass)
     {
         if (!class_exists($entityClass)) {
-            throw new \InvalidArgumentException(sprintf("The class %s doesn't exists or is not autoloaded.", $entityClass));
+            throw new \InvalidArgumentException(sprintf("The class %s doesn't exists or was not autoloaded.", $entityClass));
         }
-        $this->$entityClass = $entityClass;
+        $this->entityClass = $entityClass;
     }
 
-    abstract public function create($object);
-    abstract public function update($object);
-    abstract public function remove($object);
+    abstract public function create();
+    abstract public function update();
+    abstract public function remove();
 
     public function getEntityClass()
     {
-        return $this->$entityClass;
+        return $this->entityClass;
     }
 
     public function setAdminObject($object)
@@ -56,7 +56,10 @@ abstract class Manager
         }
         $this->admin = $object;
     }
-
+    
+    /**
+     * @return \Sonata\AdminBundle\Admin\AdminInterface
+     */
     public function getAdminObject()
     {
         return $this->admin;

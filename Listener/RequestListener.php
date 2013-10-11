@@ -3,24 +3,25 @@ namespace IMOControl\M3\AdminBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * RequestListener
  */
 class RequestListener
 {
-    protected $container;
+    protected $securityContext;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(SecurityContext $securityContext)
     {
-        $this->container = $container;
+        $this->securityContext = $securityContext;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
         $userlocale = null;
         $request = $event->getRequest();
-        $token = $this->container->get('security.context')->getToken();
+        $token = $this->securityContext->getToken();
 
         if (!is_object($token)) {
             return;

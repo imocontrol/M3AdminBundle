@@ -75,12 +75,13 @@ abstract class Admin extends SonataAdmin
      */
     public function isEditModus()
     {
-        return ($this->getSubject()->getId() > 0);
+        if (is_object($this->getSubject())) {
+            return ($this->getSubject()->getId() > 0);
+        }
+        return true;
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Check if the current request is an ajax request. (e.g.: popup form or list)
      *
      * @return boolean true If ajax request
@@ -91,7 +92,6 @@ abstract class Admin extends SonataAdmin
     }
 
     /**
->>>>>>> 4bb98d0aba88c9e703cbc87fd1b419b250c60600
      * Checks if the current request is a history request.
      *
      * @return boolean true|false

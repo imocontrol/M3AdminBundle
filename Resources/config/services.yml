@@ -1,14 +1,26 @@
 parameters:
     imocontrol_m3_admin.listener.request.class: IMOControl\M3\AdminBundle\Listener\RequestListener
     imocontrol_m3_admin.listbuilder.class: IMOControl\M3\AdminBundle\Builder\OrmListBuilder
-    
+    imocontrol_m3_admin.pool.class: IMOControl\M3\AdminBundle\Admin\Pool
 services:
+    # Overrides the current sonata.admin.pool to add custom features
+    sonata.admin.pool:
+        class: %imocontrol_m3_admin.pool.class%
+        arguments: [@service_container, %sonata_admin.title%, %sonata_admin.logo_title%]
+        calls:
+            - [setTemplates, [%sonata.admin.configuration.templates%]]
+    
     imocontrol.admin.listener.request:
         class: %imocontrol_m3_admin.listener.request.class%
-        arguments: [ @service_container ]
+        arguments: [ @security.context ]
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-          
+    
+    # Override sonata orm list builder to set custom button templates in each admin
+    # This solution is cleaner as adding in each admin the new templates 
     sonata.admin.builder.orm_list:
         class: %imocontrol_m3_admin.listbuilder.class%
         arguments: [ @sonata.admin.guesser.orm_list_chain]
+
+    imocontrol.admin.pool:
+        alias: sonata.admin.pool
