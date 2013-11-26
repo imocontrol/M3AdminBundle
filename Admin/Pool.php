@@ -15,7 +15,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Pool extends SonataAdminPool
 {
-
+    /**
+     * This function checks if current groupName of the request is active.
+     * 
+     * @param string Name of current admin dashboard group
+     * @return boolean
+     */
     public function isActiveGroup($groupName)
     {
         $request = $this->getContainer()->get('request');
