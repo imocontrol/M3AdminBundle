@@ -164,7 +164,7 @@ abstract class Admin extends SonataAdmin
     public function getParam($name, $default=null)
     {
         if ($this->hasParam($name)) {
-            return $this->options[$name];
+            return $this->parameters[$name];
         }
         return $default;
     }
@@ -205,6 +205,10 @@ abstract class Admin extends SonataAdmin
                                                                             );
     }
     
+    public function setFlash($level, $message) {
+        $this->getRequest()->getSession()->getFlashBag()->add('sonata_flash_'.$level, $message);
+    }
+    
     /**
      * Set the offer manager service.
      * Should always be injected by the service container.
@@ -230,46 +234,5 @@ abstract class Admin extends SonataAdmin
         return $this->manager;
     }
     
-    public function initDocument()
-    {
-        if (!method_exists($this->getSubject(), 'getDocument')) {
-            return;
-        }
-        $docClass = $this->getParam('document_class');
-        if (!class_exists($docClass)) {
-            throw new \RuntimeException(sprintf('Required class %s was not found. Be sure to set document_class parameter in your Admin', $docClass));
-        }
-        $doc = $this->getSubject()->getDocument();
-        if (!is_null($doc) && $doc instanceof $docClass) {
-            return $this->getSubject()->getDocument();
-        }
-        
-        // Finally init and return a new Document instance
-        $doc = new $docClass();
-        $doc->setFileType('.pdf');  // extension of the file
-        $doc->setContentTemplate($this->getParam('pdf_template')); // Content skeleton
-        $doc->setLayoutTemplate('Default'); // Html skeleton with core css
-        $doc->setCreatedAt(new \DateTime());
-        $doc->setCreatedFrom($this->getCurrentUser());
-        $doc->setEnabled(false);
-        
-        return $doc;
-    }
-    
-    public function loadDocument($object)
-    {
-        $doc = $this->initDocument();
-        $doc->setCustomer($object->getCustomer());
-        
-        $doc->setCreatedAt(new \DateTime());
-        $doc->setCreatedFrom($this->getAdminObject()->getCurrentUser());
-        $doc->setEnabled(true);
-        //$doc->setLocked(true);
-        $fileName = Helper::generateInternalName($offer->getId(), $this->getOption('folder_format'), $offer, $this->getOption('folder_id_length'));
-        $doc->setName($fileName);
-        $offer->setDocument($doc);
-        $doc->setContent($this->renderDocument());
-        return $doc;
-    }
     
 }

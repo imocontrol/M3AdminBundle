@@ -89,6 +89,7 @@ class CoreAdminController extends SonataCRUDController
     public function downloadAction()
     {
         $id = $this->get('request')->get('id');
+        $context = strtolower($this->get('request')->get('fs', 'customer')).'_folder';
         $object = $this->admin->getObject($id);
 
         if (!$object) {
@@ -98,15 +99,25 @@ class CoreAdminController extends SonataCRUDController
         if (false === $this->admin->isGranted('DOWNLOAD', $object)) {
             throw new AccessDeniedException();
         }
-        $fs = $this->get('imocontrol.document.filesystem')->get('customer_folder');
         
+        if (method_exists($object, 'getDocument')) {
+            $filePath = $object->getDocument()->getPath();
+        } elseif (method_exists($object, 'getPath')) {
+            $filePath = $object->getPath();
+        } else {
+            throw new \InvalidArgumentException(sprintf('Can\'t handle object %s for download.', get_class($object)));
+        }
+        
+        $fs = $this->get('imocontrol.document.filesystem')->get($context);
+        
+        $content = $fs->read($filePath);
         // Finally return the document
         return new Response(
-            $fs->read($object->getDocument()->getPath()),
+            $content,
             200,
             array(
                 'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="' . $object->getDocument()->getName() . '.pdf' . '"'
+                'Content-Disposition'   => 'attachment; filename="' . basename($filePath) . '"'
             ) 
         );
     }

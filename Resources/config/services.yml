@@ -6,7 +6,7 @@ services:
     # Overrides the current sonata.admin.pool to add custom features
     sonata.admin.pool:
         class: %imocontrol_m3_admin.pool.class%
-        arguments: [@service_container, %sonata_admin.title%, %sonata_admin.logo_title%]
+        arguments: [@service_container, %sonata_admin.title%, %sonata_admin.logo_title%, %sonata_admin.options%]
         calls:
             - [setTemplates, [%sonata.admin.configuration.templates%]]
     
